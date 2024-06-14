@@ -1,10 +1,18 @@
-from flask import Flask
+from flask import Flask, jsonify, request 
+import fasttext
 
 app = Flask(__name__)
 
-@app.route("/")
+model = fasttext.load_model("model.bin")
+
+@app.route("/vectorize")
 def index():
-    return "Hello, World!"
+    text = request.args.get('text')
+    if not text:
+        return jsonify({"error": "'text' query parameter is required"}), 400
+ 
+    prediction = model.get_sentence_vector(text)
+    return jsonify(prediction.tolist())
 
 @app.route("/flask-health-check")
 def flask_health_check():
