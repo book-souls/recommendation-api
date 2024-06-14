@@ -1,7 +1,10 @@
-FROM python:3.12.4
+FROM python:3.12.4-slim
 
 # upgrade pip
 RUN pip install --upgrade pip
+
+# install packages 
+RUN apt-get update && apt-get install -y build-essential curl git
 
 # permissions and nonroot user for tightened security
 RUN useradd -m nonroot
