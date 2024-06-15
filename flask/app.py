@@ -14,10 +14,10 @@ def vectorize():
     input = body.get("input")
     if not input:
         return jsonify({"error": "'input' not found in body"}), 400
- 
+
     if not isinstance(input, str):
         return jsonify({"error": "'input' must be a string"}), 400
- 
+
     prediction = model.get_sentence_vector(input)
     return jsonify(prediction.tolist())
 
