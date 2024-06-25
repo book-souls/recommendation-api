@@ -1,9 +1,7 @@
-from flask import Flask, jsonify, request 
-import fasttext
+from flask import Flask, jsonify, request
+from model import get_sentence_vector
 
 app = Flask(__name__)
-
-model = fasttext.load_model("model.bin")
 
 @app.route("/vectorize", methods=["POST"])
 def vectorize():
@@ -18,8 +16,8 @@ def vectorize():
     if not isinstance(input, str):
         return jsonify({"error": "'input' must be a string"}), 400
 
-    prediction = model.get_sentence_vector(input)
-    return jsonify(prediction.tolist())
+    embedding = get_sentence_vector(input)
+    return jsonify(embedding)
 
 @app.route("/flask-health-check")
 def flask_health_check():
